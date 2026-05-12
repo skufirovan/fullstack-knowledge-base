@@ -6,6 +6,7 @@ import authConfig from './config/auth.config'
 import cookiesConfig from './config/cookies.config'
 import { PrismaModule } from './prisma/prisma.module'
 import { TokenModule } from './token/token.module'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TokenModule } from './token/token.module'
     }),
     PrismaModule,
     TokenModule,
+    UserModule,
     AuthModule,
   ],
   controllers: [],
