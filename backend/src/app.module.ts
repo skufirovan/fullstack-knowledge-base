@@ -7,6 +7,7 @@ import cookiesConfig from './config/cookies.config'
 import { PrismaModule } from './prisma/prisma.module'
 import { TokenModule } from './token/token.module'
 import { UserModule } from './user/user.module'
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module'
     TokenModule,
     UserModule,
     AuthModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
