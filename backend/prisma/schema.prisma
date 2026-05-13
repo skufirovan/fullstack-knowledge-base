@@ -17,7 +17,8 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  tokens Token[]
+  tokens   Token[]
+  articles Article[]
 
   @@map("users")
 }
@@ -54,5 +55,30 @@ model Category {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  articles Article[]
+
   @@map("categories")
+}
+
+model Article {
+  id         String        @id @default(uuid())
+  title      String
+  slug       String
+  content    String
+  status     ArticleStatus @default(draft)
+  authorId   String        @map("author_id")
+  categoryId String        @map("category_id")
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+
+  author   User     @relation(fields: [authorId], references: [id], onDelete: SetDefault)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: SetDefault)
+
+  @@unique([slug, categoryId])
+  @@map("articles")
+}
+
+enum ArticleStatus {
+  draft
+  published
 }
