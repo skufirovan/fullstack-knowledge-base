@@ -8,6 +8,7 @@ import { PrismaModule } from './prisma/prisma.module'
 import { TokenModule } from './token/token.module'
 import { UserModule } from './user/user.module'
 import { CategoryModule } from './category/category.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CategoryModule } from './category/category.module';
     UserModule,
     AuthModule,
     CategoryModule,
+    ArticleModule,
   ],
   controllers: [],
   providers: [],

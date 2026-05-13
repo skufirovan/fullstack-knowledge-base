@@ -8,7 +8,9 @@ import {
   Post,
 } from '@nestjs/common'
 
+import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { RequireAuth } from '@/common/decorators/require-auth.decorator'
+import type { RequestUser } from '@/common/types/fastify'
 
 import { CategoryService } from './category.service'
 import { CreateCategoryDto } from './dto/create-category.dto'
@@ -26,8 +28,8 @@ export class CategoryController {
 
   @RequireAuth()
   @Get()
-  findAll() {
-    return this.categoryService.findAll()
+  findAll(@CurrentUser() user: RequestUser) {
+    return this.categoryService.findAll(user)
   }
 
   @RequireAuth()

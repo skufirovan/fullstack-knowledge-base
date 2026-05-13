@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import slugify from 'slugify'
 
+import { ArticlePolicy } from '@/article/article.policy'
 import { AppException } from '@/common/exceptions/api.exceptions'
+import { RequestUser } from '@/common/types/fastify'
 import { isP2002 } from '@/common/utils/prisma.utils'
 import { PrismaService } from '@/prisma/prisma.service'
 
@@ -11,7 +13,10 @@ import { Category } from './entities/category.entity'
 
 @Injectable()
 export class CategoryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly articlePolicy: ArticlePolicy
+  ) {}
 
   async create(dto: CreateCategoryDto) {
     const slug = await this.generateUniqueSlug(dto.name)
@@ -30,16 +35,30 @@ export class CategoryService {
       if (isP2002(err)) {
         throw AppException.conflict(`Category ${dto.name} already exists`)
       }
+
+      throw err
     }
   }
 
-  async findAll() {
+  async findAll(user: RequestUser) {
     const categories = await this.prisma.category.findMany({
+      include: {
+        articles: {
+          select: { id: true, title: true, slug: true },
+          where: this.articlePolicy.getVisibleWhere(user),
+          orderBy: {
+            title: 'asc',
+          },
+        },
+      },
       orderBy: {
         name: 'asc',
       },
     })
-    return { categories: categories.map(c => new Category(c)) }
+
+    return {
+      categories: categories.map(c => new Category(c)),
+    }
   }
 
   async findOne(slug: string) {
