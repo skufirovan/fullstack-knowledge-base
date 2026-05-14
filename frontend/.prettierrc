@@ -1,0 +1,24 @@
+{
+  "lineWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "indentWidth": 2,
+  "indentStyle": "space",
+  "endOfLine": "lf",
+  "semi": false,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "importOrderParserPlugins": [
+    "typescript",
+    "jsx",
+    "classProperties",
+    "decorators-legacy"
+  ],
+  "importOrder": ["<THIRD_PARTY_MODULES>", "@/(.*)$", "^../(.*)", "^./(.*)"],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindStylesheet": "src/index.css",
+  "tailwindFunctions": ["cn", "cva"]
+}
