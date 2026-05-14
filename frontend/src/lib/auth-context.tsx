@@ -7,17 +7,15 @@ import {
   type PropsWithChildren,
 } from 'react'
 import { setAccessToken } from './api/api-client'
-import type { User } from './types/user'
 
 export type AuthStatus = 'unknown' | 'authenticated' | 'unauthenticated'
 
 type AuthSessionState = {
-  user?: User
   authStatus: AuthStatus
 }
 
 type AuthContextValue = AuthSessionState & {
-  setAuthenticated: (accessToken: string, user: User) => void
+  setAuthenticated: (accessToken: string) => void
   setAuthStatus: (authStatus: AuthStatus) => void
   logout: () => void
 }
@@ -26,15 +24,13 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [session, setSession] = useState<AuthSessionState>({
-    user: undefined,
     authStatus: 'unknown',
   })
 
-  const setAuthenticated = useCallback((accessToken: string, user: User) => {
+  const setAuthenticated = useCallback((accessToken: string) => {
     setAccessToken(accessToken)
 
     setSession({
-      user,
       authStatus: 'authenticated',
     })
   }, [])
@@ -49,7 +45,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setAccessToken(undefined)
 
     setSession({
-      user: undefined,
       authStatus: 'unauthenticated',
     })
   }, [])

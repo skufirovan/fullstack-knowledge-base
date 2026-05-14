@@ -12,12 +12,6 @@ export type AuthResponse = {
 }
 
 export const authApi = {
-  async register(dto: AuthCredentialsDto) {
-    const { data } = await apiClient.post<User>('/auth/register', dto)
-
-    return data
-  },
-
   async login(dto: AuthCredentialsDto) {
     const { data } = await apiClient.post<AuthResponse>('/auth/login', dto)
 
@@ -30,12 +24,6 @@ export const authApi = {
 
   async refresh() {
     const { data } = await apiClient.post<AuthResponse>('/auth/refresh')
-
-    return data
-  },
-
-  async me() {
-    const { data } = await apiClient.get('/users/me')
 
     return data
   },

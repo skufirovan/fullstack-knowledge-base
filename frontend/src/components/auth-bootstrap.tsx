@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { authApi } from '@/lib/api/auth-api'
 import { useAuthSession } from '@/lib/auth-context'
@@ -8,6 +9,7 @@ type Props = {
 }
 
 export const AuthBootstrap = ({ children }: Props) => {
+  const queryClient = useQueryClient()
   const { setAuthenticated, setAuthStatus } = useAuthSession()
 
   useEffect(() => {
@@ -17,7 +19,8 @@ export const AuthBootstrap = ({ children }: Props) => {
 
         const response = await authApi.refresh()
 
-        setAuthenticated(response.accessToken, response.user)
+        setAuthenticated(response.accessToken)
+        queryClient.setQueryData(['me'], response.user)
       } catch (error) {
         setAuthStatus('unauthenticated')
       }
