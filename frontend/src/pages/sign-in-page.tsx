@@ -1,7 +1,6 @@
-import { LoginForm } from '@/components/login-form'
-import { LogoIcon } from '@/components/logo-icon'
+import { LoginForm, LogoIcon } from '@/components'
 
-export default function SignInPage() {
+export function SignInPage() {
   return (
     <div className="grid h-svh overflow-hidden lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

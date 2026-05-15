@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { AppBreadcrumb } from '@/components/app-breadcrumb'
-import { AppSidebar } from '@/components/app-sidebar'
+import { AppBreadcrumb, AppSidebar } from '@/components'
 import { Separator } from '@/components/ui/separator'
 import {
   SidebarInset,
@@ -8,7 +7,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 
-export default function MainPage() {
+export function MainPage() {
   return (
     <SidebarProvider>
       <AppSidebar />

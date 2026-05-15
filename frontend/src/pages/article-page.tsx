@@ -1,11 +1,11 @@
 import ReactMarkdown from 'react-markdown'
 import { useParams } from 'react-router-dom'
 import remarkGfm from 'remark-gfm'
-import { AppSpinner } from '@/components/app-spinner'
+import { AppSpinner } from '@/components'
 import { useArticle } from '@/hooks/use-article'
 import { NotFoundPage } from './not-found-page'
 
-export default function ArticlePage() {
+export function ArticlePage() {
   const { categorySlug, articleSlug } = useParams()
 
   if (!categorySlug || !articleSlug) return

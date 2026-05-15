@@ -5,7 +5,7 @@ type Props = {
   onlyUnAuth?: boolean
 }
 
-export const ProtectedRoute = ({ onlyUnAuth }: Props) => {
+export function ProtectedRoute({ onlyUnAuth }: Props) {
   const { authStatus } = useAuthSession()
 
   if (authStatus === 'unknown') {

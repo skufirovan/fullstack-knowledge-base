@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export const AuthBootstrap = ({ children }: Props) => {
+export function AuthBootstrap({ children }: Props) {
   const queryClient = useQueryClient()
   const { setAuthenticated, setAuthStatus } = useAuthSession()
 
