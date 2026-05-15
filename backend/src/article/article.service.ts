@@ -45,8 +45,8 @@ export class ArticleService {
     }
   }
 
-  async findOne(id: string, user: RequestUser) {
-    const article = await this.getById(id)
+  async findOne(categorySlug: string, articleSlug: string, user: RequestUser) {
+    const article = await this.getBySlug(categorySlug, articleSlug)
 
     if (!article || !this.articlePolicy.canView(user, article))
       throw AppException.notFound('Article not found')
@@ -123,6 +123,27 @@ export class ArticleService {
     return this.prisma.article.findUnique({
       where: { id },
       include: this.articleInclude,
+    })
+  }
+
+  private async getBySlug(categorySlug: string, articleSlug: string) {
+    return this.prisma.article.findFirst({
+      where: { slug: articleSlug, category: { slug: categorySlug } },
+      include: {
+        author: {
+          select: {
+            email: true,
+          },
+        },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+          },
+        },
+      },
     })
   }
 

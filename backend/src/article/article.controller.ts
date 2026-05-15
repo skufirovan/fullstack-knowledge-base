@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common'
 
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
@@ -28,12 +29,13 @@ export class ArticleController {
   }
 
   @RequireAuth()
-  @Get(':id')
+  @Get(':slug')
   findOne(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('slug') slug: string,
+    @Query('categorySlug') categorySlug: string,
     @CurrentUser() user: RequestUser
   ) {
-    return this.articleService.findOne(id, user)
+    return this.articleService.findOne(categorySlug, slug, user)
   }
 
   @RequireAuth('admin', 'editor')

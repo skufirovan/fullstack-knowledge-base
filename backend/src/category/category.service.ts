@@ -47,7 +47,7 @@ export class CategoryService {
           select: { id: true, title: true, slug: true },
           where: this.articlePolicy.getVisibleWhere(user),
           orderBy: {
-            title: 'asc',
+            createdAt: 'asc',
           },
         },
       },

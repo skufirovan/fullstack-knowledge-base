@@ -20,9 +20,8 @@ export class AuthController {
 
   @RequireAuth('admin')
   @Post('register')
-  async register(@Body() dto: RegisterDto) {
-    const { user } = await this.authService.register(dto)
-    return { user }
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto)
   }
 
   @Post('login')

@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer'
 
+import type { Category } from '@/generated/prisma/client'
 import { ArticleStatus } from '@/generated/prisma/enums'
 
 export class Article {
@@ -25,7 +26,7 @@ export class Article {
   readonly authorEmail?: string
 
   @Expose()
-  readonly categoryId: string
+  readonly category?: Category
 
   @Expose()
   readonly createdAt: Date
