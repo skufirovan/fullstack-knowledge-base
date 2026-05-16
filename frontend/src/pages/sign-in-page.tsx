@@ -1,15 +1,10 @@
-import { LoginForm, LogoIcon } from '@/components'
+import { LoginForm, Logo } from '@/components'
 
 export function SignInPage() {
   return (
     <div className="grid h-svh overflow-hidden lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex items-center justify-center gap-2 md:justify-start">
-          <div className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <LogoIcon />
-          </div>
-          База Знаний
-        </div>
+        <Logo />
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
             <LoginForm />
