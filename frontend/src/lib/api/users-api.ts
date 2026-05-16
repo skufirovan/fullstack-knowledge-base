@@ -4,14 +4,14 @@ import type { AuthCredentialsDto } from './auth-api'
 
 export const usersApi = {
   async register(dto: AuthCredentialsDto) {
-    const { data } = await apiClient.post<User>('/auth/register', dto)
+    const { data } = await apiClient.post<{ user: User }>('/auth/register', dto)
 
-    return data
+    return data.user
   },
 
   async me() {
-    const { data } = await apiClient.get<User>('/users/me')
+    const { data } = await apiClient.get<{ user: User }>('/users/me')
 
-    return data
+    return data.user
   },
 }

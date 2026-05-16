@@ -1,24 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldGroup } from '@/components/ui/field'
-import { authApi } from '@/lib/api/auth-api'
-import { useAuthSession } from '@/lib/auth-context'
+import { usersApi } from '@/lib/api/users-api'
 import {
   authCredentialsSchema,
   type AuthCredentialsDTO,
 } from '@/lib/schemas/auth-credentials'
 import { isApiError } from '@/lib/types/api-error'
+import { cn } from '@/lib/utils'
 import { AuthCredentialsFields } from './auth-credentials-fields'
 
-export function LoginForm() {
-  const queryClient = useQueryClient()
-  const { setAuthenticated } = useAuthSession()
-  const navigate = useNavigate()
-
+export function CreateUserForm({ className }: { className?: string }) {
   const form = useForm<AuthCredentialsDTO>({
     resolver: zodResolver(authCredentialsSchema),
     defaultValues: {
@@ -29,10 +24,9 @@ export function LoginForm() {
 
   const handleSubmit = async (dto: AuthCredentialsDTO) => {
     try {
-      const data = await authApi.login(dto)
-      setAuthenticated(data.accessToken)
-      queryClient.setQueryData(['me'], data.user)
-      navigate('/', { replace: true })
+      const data = await usersApi.register(dto)
+      console.log(data)
+      toast.success(`Пользователь ${data.email} успешно создан`)
     } catch (error) {
       let message = 'Произошла внутренняя ошибка. Попробуйте позже'
 
@@ -50,28 +44,29 @@ export function LoginForm() {
 
   return (
     <form
-      id="login-form"
+      id="create-user-form"
       onSubmit={form.handleSubmit(handleSubmit)}
       className="flex flex-col gap-6"
       noValidate
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Войдите в свой аккаунт</h1>
+          <h1 className="text-2xl font-bold">Создание пользователя</h1>
           <p className="text-sm text-balance text-muted-foreground">
-            Введите свой адрес электронной почты ниже, чтобы войти в свой
-            аккаунт.
+            Заполните форму ниже, чтобы создать нового пользователя
           </p>
         </div>
 
-        <AuthCredentialsFields control={form.control} />
+        <div className={cn('flex flex-col gap-5', className)}>
+          <AuthCredentialsFields control={form.control} />
 
-        <Field>
-          <FieldError errors={[form.formState.errors.root]} />
-          <Button type="submit" form="login-form">
-            Войти
-          </Button>
-        </Field>
+          <Field>
+            <FieldError errors={[form.formState.errors.root]} />
+            <Button type="submit" form="create-user-form">
+              Создать
+            </Button>
+          </Field>
+        </div>
       </FieldGroup>
     </form>
   )

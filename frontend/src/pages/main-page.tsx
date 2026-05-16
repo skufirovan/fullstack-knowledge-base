@@ -6,6 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { Toaster } from '@/components/ui/sonner'
 
 export function MainPage() {
   return (
@@ -17,6 +18,7 @@ export function MainPage() {
           <Separator orientation="vertical" className="mr-2" />
           <AppBreadcrumb />
         </header>
+        <Toaster />
         <section className="h-full p-6">
           <Outlet />
         </section>

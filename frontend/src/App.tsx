@@ -4,6 +4,7 @@ import {
   ArticlePage,
   CategoryPage,
   CreateArticlePage,
+  CreateUserPage,
   MainPage,
   NotFoundPage,
   SignInPage,
@@ -25,6 +26,7 @@ function App() {
               element={<ArticlePage />}
             />
             <Route path="create-article" element={<CreateArticlePage />} />
+            <Route path="create-user" element={<CreateUserPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
