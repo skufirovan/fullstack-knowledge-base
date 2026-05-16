@@ -9,8 +9,10 @@ export type CreateArticleDTO = {
 }
 
 export type UpdateArticleDTO = {
-  name?: string
-  description?: string
+  title?: string
+  content?: string
+  status?: ArticleStatus
+  categoryId?: string
 }
 
 export const articlesApi = {

@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const createArticleSchema = z.object({
+export const articleSchema = z.object({
   title: z
     .string('Введите название статьи')
     .min(1, 'Введите название статьи')
@@ -9,4 +9,4 @@ export const createArticleSchema = z.object({
   categoryId: z.uuidv4('Выберите категорию'),
 })
 
-export type CreateArticleDTO = z.infer<typeof createArticleSchema>
+export type ArticleDTO = z.infer<typeof articleSchema>

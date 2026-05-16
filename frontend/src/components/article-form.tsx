@@ -3,18 +3,19 @@ import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { articlesApi } from '@/lib/api/articles-api'
-import {
-  createArticleSchema,
-  type CreateArticleDTO,
-} from '@/lib/schemas/create-article'
+import { articleSchema, type ArticleDTO } from '@/lib/schemas/article'
 import { isApiError } from '@/lib/types/api-error'
-import type { ArticleStatus } from '@/lib/types/article'
+import type { Article, ArticleStatus } from '@/lib/types/article'
 import { CategoriesSelect } from './categories-select'
 import { Button } from './ui/button'
 import { FieldGroup, Field, FieldError, FieldLabel } from './ui/field'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
+
+type Props = {
+  article?: Article
+  onSubmit: (dto: ArticleDTO, status: ArticleStatus) => Promise<Article>
+}
 
 const contentPlaceholder = `# Заголовок статьи
 
@@ -31,22 +32,22 @@ const contentPlaceholder = `# Заголовок статьи
 [Ссылки](https://example.com) и автоссылки https://example.com
 `
 
-export function CreateArticleForm() {
+export function ArticleForm({ article, onSubmit }: Props) {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const form = useForm<CreateArticleDTO>({
-    resolver: zodResolver(createArticleSchema),
+  const form = useForm<ArticleDTO>({
+    resolver: zodResolver(articleSchema),
     defaultValues: {
-      title: '',
-      content: '',
-      categoryId: '',
+      title: article?.title ?? '',
+      content: article?.content ?? '',
+      categoryId: article?.category?.id ?? '',
     },
   })
 
-  const handleSubmit = async (dto: CreateArticleDTO, status: ArticleStatus) => {
+  const handleSubmit = async (dto: ArticleDTO, status: ArticleStatus) => {
     try {
-      const data = await articlesApi.create({ ...dto, status })
+      const data = await onSubmit(dto, status)
       queryClient.invalidateQueries({ queryKey: ['categories'] })
       navigate(`/${data.category?.slug}/${data.slug}`, { replace: true })
     } catch (error) {
@@ -67,13 +68,6 @@ export function CreateArticleForm() {
   return (
     <form className="flex flex-col gap-6">
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Создание статьи</h1>
-          <p className="text-sm text-balance text-muted-foreground">
-            Статью можно сохранить как черновик и продолжить редактирование
-            позже
-          </p>
-        </div>
         <Controller
           name="title"
           control={form.control}

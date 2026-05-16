@@ -23,7 +23,7 @@ export type Article = {
 }
 
 type ArticlePolicyArticle = {
-  authorId: string
+  author: User
   status?: 'draft' | 'published'
 }
 
@@ -32,25 +32,25 @@ export const articlePolicy = {
     return user?.role === 'admin' || user?.role === 'editor'
   },
 
-  canUpdate(article: ArticlePolicyArticle, user?: User) {
+  canUpdate(article: ArticlePolicyArticle | Article, user?: User) {
     if (!user) return false
     if (user.role === 'admin') return true
 
-    return user.role === 'editor' && article.authorId === user.id
+    return user.role === 'editor' && article.author.id === user.id
   },
 
   canDelete(article: ArticlePolicyArticle, user?: User) {
     if (!user) return false
     if (user.role === 'admin') return true
 
-    return user.role === 'editor' && article.authorId === user.id
+    return user.role === 'editor' && article.author.id === user.id
   },
 
   canPublish(article: ArticlePolicyArticle, user?: User) {
     if (!user) return false
     if (user.role === 'admin') return true
 
-    return user.role === 'editor' && article.authorId === user.id
+    return user.role === 'editor' && article.author.id === user.id
   },
 
   canView(article: ArticlePolicyArticle, user?: User) {
@@ -58,6 +58,6 @@ export const articlePolicy = {
     if (article.status === 'published') return true
     if (user.role === 'admin') return true
 
-    return user.role === 'editor' && article.authorId === user.id
+    return user.role === 'editor' && article.author.id === user.id
   },
 }

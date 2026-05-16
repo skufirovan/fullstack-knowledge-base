@@ -1,6 +1,6 @@
 import { Controller, type Control } from 'react-hook-form'
 import { useCategories } from '@/hooks/use-categories'
-import type { CreateArticleDTO } from '@/lib/schemas/create-article'
+import type { ArticleDTO } from '@/lib/schemas/article'
 import {
   Field,
   FieldError,
@@ -18,7 +18,7 @@ import {
 import { Skeleton } from './ui/skeleton'
 
 type Props = {
-  control: Control<CreateArticleDTO>
+  control: Control<ArticleDTO>
 }
 
 export function CategoriesSelect({ control }: Props) {

@@ -5,6 +5,7 @@ import {
   CategoryPage,
   CreateArticlePage,
   CreateUserPage,
+  EditArticlePage,
   MainPage,
   NotFoundPage,
   SignInPage,
@@ -24,6 +25,10 @@ function App() {
             <Route
               path=":categorySlug/:articleSlug"
               element={<ArticlePage />}
+            />
+            <Route
+              path=":categorySlug/:articleSlug/edit"
+              element={<EditArticlePage />}
             />
             <Route path="create-article" element={<CreateArticlePage />} />
             <Route path="create-user" element={<CreateUserPage />} />
