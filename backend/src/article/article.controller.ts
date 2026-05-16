@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -39,21 +38,23 @@ export class ArticleController {
   }
 
   @RequireAuth('admin', 'editor')
-  @Patch(':id')
+  @Patch(':slug')
   update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('slug') slug: string,
+    @Query('categorySlug') categorySlug: string,
     @Body() dto: UpdateArticleDto,
     @CurrentUser() user: RequestUser
   ) {
-    return this.articleService.update(id, dto, user)
+    return this.articleService.update(categorySlug, slug, dto, user)
   }
 
   @RequireAuth('admin', 'editor')
-  @Delete(':id')
+  @Delete(':slug')
   remove(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('slug') slug: string,
+    @Query('categorySlug') categorySlug: string,
     @CurrentUser() user: RequestUser
   ) {
-    return this.articleService.remove(id, user)
+    return this.articleService.remove(categorySlug, slug, user)
   }
 }

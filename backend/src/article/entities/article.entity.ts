@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer'
 
-import type { Category } from '@/generated/prisma/client'
+import { Category } from '@/category/entities/category.entity'
 import { ArticleStatus } from '@/generated/prisma/enums'
+import { User } from '@/user/entities/user.entity'
 
 export class Article {
   @Expose()
@@ -20,10 +21,7 @@ export class Article {
   readonly status: ArticleStatus
 
   @Expose()
-  readonly authorId: string
-
-  @Expose()
-  readonly authorEmail?: string
+  readonly author: User
 
   @Expose()
   readonly category?: Category
@@ -36,5 +34,8 @@ export class Article {
 
   constructor(partial: Partial<Article>) {
     Object.assign(this, partial)
+
+    if (partial.author) this.author = new User(partial.author)
+    if (partial.category) this.category = new Category(partial.category)
   }
 }

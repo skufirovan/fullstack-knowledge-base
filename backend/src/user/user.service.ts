@@ -4,7 +4,7 @@ import { AppException } from '@/common/exceptions/api.exceptions'
 import { PrismaService } from '@/prisma/prisma.service'
 import { TokenService } from '@/token/token.service'
 
-import { UserDto } from '../common/dtos/user.dto'
+import { User } from './entities/user.entity'
 
 @Injectable()
 export class UserService {
@@ -13,14 +13,14 @@ export class UserService {
     private readonly tokenService: TokenService
   ) {}
 
-  async getMe(id: string): Promise<UserDto> {
+  async getMe(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     })
 
     if (!user) throw AppException.userNotFound()
 
-    return new UserDto(user)
+    return new User(user)
   }
 
   async deactivateUser(id: string) {

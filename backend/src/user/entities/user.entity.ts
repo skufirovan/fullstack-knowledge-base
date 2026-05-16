@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer'
 
 import { UserRole } from '@/generated/prisma/enums'
 
-export class UserDto {
+export class User {
   @Expose()
   readonly id: string
 
@@ -12,7 +12,7 @@ export class UserDto {
   @Expose()
   readonly role: UserRole
 
-  constructor(partial: Partial<UserDto>) {
+  constructor(partial: Partial<User>) {
     Object.assign(this, partial)
   }
 }

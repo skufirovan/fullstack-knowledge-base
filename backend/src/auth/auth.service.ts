@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { hash, verify } from 'argon2'
 
-import { UserDto } from '@/common/dtos/user.dto'
 import { AppException } from '@/common/exceptions/api.exceptions'
 import { isP2002 } from '@/common/utils/prisma.utils'
 import { isEqualIgnoreCase } from '@/common/utils/string.utils'
 import { PrismaService } from '@/prisma/prisma.service'
 import { TokenService } from '@/token/token.service'
+import { User } from '@/user/entities/user.entity'
 
 import { LoginDto } from './dtos/login.dto'
 import { RegisterDto } from './dtos/register.dto'
@@ -31,7 +31,7 @@ export class AuthService {
         },
       })
 
-      return { user: new UserDto(user) }
+      return { user: new User(user) }
     } catch (err) {
       if (isP2002(err)) {
         const existing = await this.prisma.user.findFirst({
@@ -80,7 +80,7 @@ export class AuthService {
         meta.ipAddress
       )
 
-      return { accessToken, refreshToken, user: new UserDto(user) }
+      return { accessToken, refreshToken, user: new User(user) }
     })
   }
 
@@ -144,7 +144,7 @@ export class AuthService {
         ipAddress
       )
 
-      return { accessToken, refreshToken, user: new UserDto(user) }
+      return { accessToken, refreshToken, user: new User(user) }
     })
   }
 }

@@ -29,11 +29,14 @@ export class ArticleService {
           authorId,
           slug,
         },
-        include: this.articleInclude,
+        include: {
+          author: true,
+          category: true,
+        },
       })
 
       return {
-        article: this.toEntity(article),
+        article: new Article(article),
       }
     } catch (err) {
       if (isP2002(err))
@@ -52,12 +55,17 @@ export class ArticleService {
       throw AppException.notFound('Article not found')
 
     return {
-      article: this.toEntity(article),
+      article: new Article(article),
     }
   }
 
-  async update(id: string, dto: UpdateArticleDto, user: RequestUser) {
-    const article = await this.getById(id)
+  async update(
+    categorySlug: string,
+    articleSlug: string,
+    dto: UpdateArticleDto,
+    user: RequestUser
+  ) {
+    const article = await this.getBySlug(categorySlug, articleSlug)
 
     if (!article) throw AppException.notFound('Article not found')
 
@@ -77,13 +85,16 @@ export class ArticleService {
 
     try {
       const updated = await this.prisma.article.update({
-        where: { id },
+        where: { id: article.id },
         data,
-        include: this.articleInclude,
+        include: {
+          author: true,
+          category: true,
+        },
       })
 
       return {
-        article: this.toEntity(updated),
+        article: new Article(updated),
       }
     } catch (err) {
       if (isP2002(err)) {
@@ -96,71 +107,26 @@ export class ArticleService {
     }
   }
 
-  async remove(id: string, user: RequestUser) {
-    const article = await this.getById(id)
+  async remove(categorySlug: string, articleSlug: string, user: RequestUser) {
+    const article = await this.getBySlug(categorySlug, articleSlug)
 
     if (!article) throw AppException.notFound('Article not found')
 
     if (!this.articlePolicy.canDelete(user, article))
       throw AppException.authForbidden()
 
-    await this.prisma.article.delete({ where: { id } })
+    await this.prisma.article.delete({ where: { id: article.id } })
 
     return { message: `Article ${article.title} was deleted` }
-  }
-
-  private get articleInclude() {
-    return {
-      author: {
-        select: {
-          email: true,
-        },
-      },
-    } satisfies Prisma.ArticleInclude
-  }
-
-  private async getById(id: string) {
-    return this.prisma.article.findUnique({
-      where: { id },
-      include: this.articleInclude,
-    })
   }
 
   private async getBySlug(categorySlug: string, articleSlug: string) {
     return this.prisma.article.findFirst({
       where: { slug: articleSlug, category: { slug: categorySlug } },
       include: {
-        author: {
-          select: {
-            email: true,
-          },
-        },
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            description: true,
-          },
-        },
+        author: true,
+        category: true,
       },
-    })
-  }
-
-  private toEntity(
-    article: Prisma.ArticleGetPayload<{
-      include: {
-        author: {
-          select: {
-            email: true
-          }
-        }
-      }
-    }>
-  ) {
-    return new Article({
-      ...article,
-      authorEmail: article.author.email,
     })
   }
 
