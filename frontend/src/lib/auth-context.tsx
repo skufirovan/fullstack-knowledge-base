@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
   useCallback,
@@ -7,6 +8,7 @@ import {
   type PropsWithChildren,
 } from 'react'
 import { setAccessToken } from './api/api-client'
+import { authApi } from './api/auth-api'
 
 export type AuthStatus = 'unknown' | 'authenticated' | 'unauthenticated'
 
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [session, setSession] = useState<AuthSessionState>({
     authStatus: 'unknown',
   })
+  const queryClient = useQueryClient()
 
   const setAuthenticated = useCallback((accessToken: string) => {
     setAccessToken(accessToken)
@@ -41,12 +44,18 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     })
   }, [])
 
-  const logout = useCallback(() => {
-    setAccessToken(undefined)
+  const logout = useCallback(async () => {
+    try {
+      await authApi.logout()
+    } finally {
+      setAccessToken(undefined)
 
-    setSession({
-      authStatus: 'unauthenticated',
-    })
+      queryClient.clear()
+
+      setSession({
+        authStatus: 'unauthenticated',
+      })
+    }
   }, [])
 
   const value = useMemo<AuthContextValue>(
