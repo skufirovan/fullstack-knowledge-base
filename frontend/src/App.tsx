@@ -3,6 +3,7 @@ import { AppErrorBoundary, ProtectedRoute } from './components'
 import {
   ArticlePage,
   CategoryPage,
+  CreateArticlePage,
   MainPage,
   NotFoundPage,
   SignInPage,
@@ -23,6 +24,7 @@ function App() {
               path=":categorySlug/:articleSlug"
               element={<ArticlePage />}
             />
+            <Route path="create-article" element={<CreateArticlePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>

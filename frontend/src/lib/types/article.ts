@@ -16,8 +16,7 @@ export type Article = {
   slug: string
   content: string
   status: ArticleStatus
-  authorId: string
-  authorEmail?: string
+  author: User
   category?: Category
   createdAt: string
   updatedAt: string

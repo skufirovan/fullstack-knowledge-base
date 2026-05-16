@@ -31,16 +31,22 @@ export const articlesApi = {
     return data.article
   },
 
-  async update(id: string, dto: UpdateArticleDTO) {
+  async update(
+    categorySlug: string,
+    articleSlug: string,
+    dto: UpdateArticleDTO,
+  ) {
     const { data } = await apiClient.patch<{ article: Article }>(
-      `/articles/${id}`,
+      `/articles/${articleSlug}?categorySlug=${categorySlug}`,
       dto,
     )
 
     return data.article
   },
 
-  async remove(id: string) {
-    await apiClient.delete(`/articles/${id}`)
+  async remove(categorySlug: string, articleSlug: string) {
+    await apiClient.delete(
+      `/articles/${articleSlug}?categorySlug=${categorySlug}`,
+    )
   },
 }
