@@ -44,7 +44,7 @@ export class CategoryService {
     const categories = await this.prisma.category.findMany({
       include: {
         articles: {
-          select: { id: true, title: true, slug: true },
+          select: { id: true, title: true, slug: true, status: true },
           where: this.articlePolicy.getVisibleWhere(user),
           orderBy: {
             createdAt: 'asc',
