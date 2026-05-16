@@ -1,7 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useArticle } from '@/hooks/use-article'
 import { useCategory } from '@/hooks/use-category'
-import { AppSpinner } from './app-spinner'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -30,7 +29,7 @@ export function AppBreadcrumb() {
 function CategoryBreadcrumb({ categorySlug }: { categorySlug: string }) {
   const { data: category, isLoading } = useCategory(categorySlug)
 
-  if (isLoading) return <AppSpinner />
+  if (isLoading) return
   if (!category) return null
 
   return (
@@ -53,7 +52,7 @@ function ArticleBreadcrumb({
 }) {
   const { data: article, isLoading } = useArticle(categorySlug, articleSlug)
 
-  if (isLoading) return <AppSpinner />
+  if (isLoading) return
   if (!article) return null
 
   return (
