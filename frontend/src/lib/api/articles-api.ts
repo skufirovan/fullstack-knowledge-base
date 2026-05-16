@@ -20,7 +20,7 @@ export const articlesApi = {
       dto,
     )
 
-    return data
+    return data.article
   },
 
   async findOne(categorySlug: string, articleSlug: string) {
@@ -37,7 +37,7 @@ export const articlesApi = {
       dto,
     )
 
-    return data
+    return data.article
   },
 
   async remove(id: string) {

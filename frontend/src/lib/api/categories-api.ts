@@ -18,7 +18,7 @@ export const categoriesApi = {
       dto,
     )
 
-    return data
+    return data.category
   },
 
   async findAll() {
@@ -34,7 +34,7 @@ export const categoriesApi = {
       `/categories/${slug}`,
     )
 
-    return data
+    return data.category
   },
 
   async update(slug: string, dto: UpdateCategoryDTO) {
@@ -43,7 +43,7 @@ export const categoriesApi = {
       dto,
     )
 
-    return data
+    return data.category
   },
 
   async remove(slug: string) {
