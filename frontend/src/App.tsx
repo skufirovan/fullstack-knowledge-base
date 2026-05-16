@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { AppErrorBoundary, ProtectedRoute } from './components'
+import { AppErrorBoundary, EmptyDashboard, ProtectedRoute } from './components'
 import {
   ArticlePage,
   CategoryPage,
@@ -21,6 +21,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />}>
+            <Route index element={<EmptyDashboard />} />
             <Route path=":categorySlug" element={<CategoryPage />} />
             <Route
               path=":categorySlug/:articleSlug"
