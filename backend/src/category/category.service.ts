@@ -64,6 +64,7 @@ export class CategoryService {
   async findOne(slug: string) {
     const category = await this.prisma.category.findUnique({
       where: { slug },
+      include: { articles: true },
     })
 
     if (!category) throw AppException.notFound('Category not found')
