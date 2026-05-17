@@ -7,6 +7,7 @@ import {
   CreateUserPage,
   EditArticlePage,
   MainPage,
+  MediatekaPage,
   NotFoundPage,
   SignInPage,
 } from './pages'
@@ -22,6 +23,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />}>
             <Route index element={<EmptyDashboard />} />
+            <Route path="mediateka" element={<MediatekaPage />} />
             <Route path=":categorySlug" element={<CategoryPage />} />
             <Route
               path=":categorySlug/:articleSlug"

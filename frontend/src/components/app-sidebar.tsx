@@ -24,9 +24,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="gap-0">
         <NavArticles />
-        <NavSecondary className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
+        <NavSecondary className="mt-auto" />
         <NavUser />
       </SidebarFooter>
     </Sidebar>

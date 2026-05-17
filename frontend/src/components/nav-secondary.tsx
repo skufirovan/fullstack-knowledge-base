@@ -1,4 +1,4 @@
-import { BookPlus, LogOut, UserPlus } from 'lucide-react'
+import { BookPlus, GalleryHorizontal, LogOut, UserPlus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useUser } from '@/hooks/use-user'
 import { useAuthSession } from '@/lib/auth-context'
@@ -17,13 +17,13 @@ export function NavSecondary({
   const { user, isAdmin } = useUser()
   const { logout } = useAuthSession()
 
-  const canCreateArticle = articlePolicy.canCreate(user)
+  const canCreate = articlePolicy.canCreate(user)
 
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {canCreateArticle && (
+          {canCreate && (
             <SidebarMenuItem>
               <SidebarMenuButton asChild size="sm">
                 <Link to="/create-article">
@@ -39,6 +39,16 @@ export function NavSecondary({
                 <Link to="/create-user">
                   <UserPlus />
                   Создать пользователя
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+          {canCreate && (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild size="sm">
+                <Link to="/mediateka">
+                  <GalleryHorizontal />
+                  Медиатека
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
