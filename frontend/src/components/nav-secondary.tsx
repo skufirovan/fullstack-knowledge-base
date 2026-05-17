@@ -1,4 +1,10 @@
-import { BookPlus, GalleryHorizontal, LogOut, UserPlus } from 'lucide-react'
+import {
+  BookPlus,
+  GalleryHorizontal,
+  ListFilterPlus,
+  LogOut,
+  UserPlus,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useUser } from '@/hooks/use-user'
 import { useAuthSession } from '@/lib/auth-context'
@@ -29,6 +35,16 @@ export function NavSecondary({
                 <Link to="/create-article">
                   <BookPlus />
                   Создать статью
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+          {canCreate && (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild size="sm">
+                <Link to="/create-category">
+                  <ListFilterPlus />
+                  Создать раздел
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

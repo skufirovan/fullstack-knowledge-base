@@ -1,6 +1,7 @@
 export { ArticlePage } from './article-page'
 export { CategoryPage } from './category-page'
 export { CreateArticlePage } from './create-article-page'
+export { CreateCategoryPage } from './create-category-page'
 export { CreateUserPage } from './create-user-page'
 export { EditArticlePage } from './edit-article-page'
 export { MainPage } from './main-page'

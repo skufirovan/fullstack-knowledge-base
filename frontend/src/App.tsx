@@ -4,6 +4,7 @@ import {
   ArticlePage,
   CategoryPage,
   CreateArticlePage,
+  CreateCategoryPage,
   CreateUserPage,
   EditArticlePage,
   MainPage,
@@ -24,6 +25,9 @@ function App() {
           <Route path="/" element={<MainPage />}>
             <Route index element={<EmptyDashboard />} />
             <Route path="mediateka" element={<MediatekaPage />} />
+            <Route path="create-category" element={<CreateCategoryPage />} />
+            <Route path="create-article" element={<CreateArticlePage />} />
+            <Route path="create-user" element={<CreateUserPage />} />
             <Route path=":categorySlug" element={<CategoryPage />} />
             <Route
               path=":categorySlug/:articleSlug"
@@ -33,8 +37,6 @@ function App() {
               path=":categorySlug/:articleSlug/edit"
               element={<EditArticlePage />}
             />
-            <Route path="create-article" element={<CreateArticlePage />} />
-            <Route path="create-user" element={<CreateUserPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
