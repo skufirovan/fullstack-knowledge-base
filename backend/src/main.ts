@@ -69,6 +69,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api')
 
-  await app.listen(config.getOrThrow<number>('APP_PORT'))
+  await app.listen(config.getOrThrow<number>('APP_PORT'), '0.0.0.0')
 }
 bootstrap()
