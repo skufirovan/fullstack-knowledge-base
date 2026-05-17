@@ -1,15 +1,28 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common'
 
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { RequireAuth } from '@/common/decorators/require-auth.decorator'
 
 import { AttachmentService } from './attachment.service'
 import { ConfirmAttachmentDto } from './dto/confirm-attachment.dto'
+import { FindAllAttachmentsDto } from './dto/find-all-attachments.dto'
 import { GetUploadUrlDto } from './dto/get-upload-url.dto'
 
 @Controller('attachments')
 export class AttachmentController {
   constructor(private readonly attachmentService: AttachmentService) {}
+
+  @Get()
+  async findAll(@Query() query: FindAllAttachmentsDto) {
+    return this.attachmentService.findAll(query)
+  }
 
   @RequireAuth()
   @Post('upload-url')

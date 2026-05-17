@@ -8,6 +8,7 @@ import { S3Service } from '@/s3/s3.service'
 
 import { ATTACHMENT_RULES } from './attachment.rules'
 import { GetUploadUrlDto } from './dto/get-upload-url.dto'
+import { Attachment } from './entities/attachment.entity'
 
 @Injectable()
 export class AttachmentService {
@@ -33,13 +34,15 @@ export class AttachmentService {
         },
       })
 
+    const id = randomUUID()
     const ext = contentType.split('/')[1]
-    const key = `${userId}/${randomUUID()}.${ext}`
+    const key = `${userId}/${id}.${ext}`
 
     const url = this.s3Service.publicUrl(key)
 
     await this.prisma.attachment.create({
       data: {
+        id,
         key,
         url,
         fileName,
@@ -130,5 +133,22 @@ export class AttachmentService {
     })
 
     return { url: updated.url }
+  }
+
+  async findAll(options: { skip?: number; take?: number }) {
+    const { skip = 0, take = 10 } = options
+
+    const [items, total] = await this.prisma.$transaction([
+      this.prisma.attachment.findMany({
+        where: { status: 'uploaded' },
+        orderBy: { createdAt: 'desc' },
+        include: { uploadedBy: true },
+        skip,
+        take,
+      }),
+      this.prisma.attachment.count({ where: { status: 'uploaded' } }),
+    ])
+
+    return { items: items.map(item => new Attachment(item)), total }
   }
 }
